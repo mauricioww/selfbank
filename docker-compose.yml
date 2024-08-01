@@ -1,0 +1,46 @@
+version: '3.9'
+
+services:
+  app:
+    container_name: microservice
+    image: goauth:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: goauth
+    ports:
+      - 8080:8080
+    networks:
+      - goauth_network
+    depends_on:
+      - mysqldb
+    # environment:
+    env_file:
+      - env/.goauth.env
+
+
+  mysqldb:
+    image: mysql
+    container_name: goauth_db
+    env_file:
+      - env/.msysqldb.env
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    volumes:
+      - goauth_db:/var/lib/mysql
+    networks:
+      - goauth_network
+
+
+volumes:
+  goauth_db:
+    name: goauth
+
+
+networks:
+  goauth_network:
+    driver: bridge
+    name: goauth

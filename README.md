@@ -1,2 +1,2 @@
 # goauth
-oauth mock
+auth service
