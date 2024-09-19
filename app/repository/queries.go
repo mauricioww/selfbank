@@ -1,23 +1,23 @@
 package repository
 
 const CreateUserQ = `
-	INSERT INTO USERS(first_name, last_name, password, admin, active) VALUES (?, ?, ?, ?, true)
+	INSERT INTO USERS(first_name, last_name, email, password, admin, active) VALUES (?, ?, ?, ?, ?, true)
 `
 
 const GetUserQ = `
 	SELECT first_name, last_name, email, admin, active FROM
-		USER WHERE email = ?
+		USERS WHERE email = ?
 `
 
 const UpdateUserQ = `
-	UPDATE TABLE USER SET first_name = ?, last_name = ?, password = ?, admin = ?
-		WHERE id = ?
+	UPDATE TABLE USERS SET first_name = ?, last_name = ?, password = ?, admin = ?
+		WHERE email = ?
 `
 
 const AuthenticateUserQ = `
-	SELECT password FROM USER where email = ?
+	SELECT password FROM USERS where email = ?
 `
 
 const DeleteUserQ = `
-	UPDATE USER SET active = false WHERE email = ?
+	UPDATE USERS SET active = false WHERE email = ?
 `

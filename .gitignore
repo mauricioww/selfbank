@@ -1,2 +1,6 @@
+.gitconfig
+
 env/.goauth.env
 env/.mysqldb.env
+
+req.http

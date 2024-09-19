@@ -14,7 +14,7 @@ type Repository struct {
 }
 
 type Repositorier interface {
-	CreateUser(firstName string, lastName string, password string, admin bool) (bool, error)
+	CreateUser(firstName string, lastName string, email string, password string, admin bool) (bool, error)
 	GetUser(email string) (models.User, error)
 }
 
@@ -25,8 +25,8 @@ func NewRepository(db *sql.DB, l log.Logger) *Repository {
 	}
 }
 
-func (r *Repository) CreateUser(firstName string, lastName string, password string, admin bool) (bool, error) {
-	_, err := r.db.Exec(CreateUserQ, firstName, lastName, password, admin)
+func (r *Repository) CreateUser(firstName string, lastName string, email string, password string, admin bool) (bool, error) {
+	_, err := r.db.Exec(CreateUserQ, firstName, lastName, email, password, admin)
 
 	if err != nil {
 		return false, err

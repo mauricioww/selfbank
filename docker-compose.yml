@@ -1,8 +1,8 @@
 version: '3.9'
 
 services:
-  app:
-    container_name: microservice
+  goauth:
+    container_name: goauth
     image: goauth:latest
     build:
       context: .
@@ -13,26 +13,26 @@ services:
     networks:
       - goauth_network
     depends_on:
-      - mysqldb
-    # environment:
+      mysqldb:
+        condition: service_healthy
     env_file:
       - env/.goauth.env
-
 
   mysqldb:
     image: mysql
     container_name: goauth_db
     env_file:
-      - env/.msysqldb.env
-    environment:
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-      - MYSQL_DATABASE=${MYSQL_DATABASE}
-      - MYSQL_USER=${MYSQL_USER}
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - env/.goauth.env
     volumes:
       - goauth_db:/var/lib/mysql
+      - ./cfg/db_setup.sql/:/docker-entrypoint-initdb.d/init.sql
     networks:
       - goauth_network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
 
 
 volumes:
