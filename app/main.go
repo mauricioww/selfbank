@@ -50,6 +50,7 @@ func main() {
 
 	mySQLAddress := fmt.Sprintf("%v:%v@tcp(%v:%v)/%v", dbCfg.User, dbCfg.Password, dbCfg.Host, dbCfg.Port, dbCfg.Name)
 	level.Info(logger).Log("message", fmt.Sprintf("Connecting %v", mySQLAddress))
+	level.Info(logger).Log("message", "hello")
 
 	mySQL, err := sql.Open("mysql", mySQLAddress)
 	if err != nil {
